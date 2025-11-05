@@ -1671,30 +1671,11 @@
             Veja como liberar seu saque assistindo ao vídeo.
         </p>
 
-        <div class="video-container">
-            <vturb-smartplayer id="vid-690b1c9b1f060d76594b616f" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer>
+        <div class="video-container" id="video-player-container">
+            <!-- O player será inserido aqui dinamicamente -->
         </div>
     </div>
 </div>
-
-<!-- JavaScript -->
-<script type="text/javascript">
-    var s=document.createElement("script");
-    s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/690b1c9b1f060d76594b616f/v4/player.js",
-    s.async=!0,
-    document.head.appendChild(s);
-
-    s.onload = function() {
-        setTimeout(function() {
-            if (window.smartplayer && window.smartplayer.instances) {
-                const player = window.smartplayer.instances[0];
-                if (player && typeof player.pause === 'function') {
-                    player.pause();
-                }
-            }
-        }, 1000);
-    };
-</script>
 
 <script>
     const inicioDiv = document.getElementById('inicio');
@@ -1702,6 +1683,26 @@
     const loginDiv = document.getElementById('login');
     const bonusDiv = document.getElementById('bonus');
     const videoDiv = document.getElementById('video');
+    let videoPlayerLoaded = false;
+
+    function carregarVideoPlayer() {
+        if (videoPlayerLoaded) return;
+
+        const container = document.getElementById('video-player-container');
+
+        const playerElement = document.createElement('vturb-smartplayer');
+        playerElement.id = 'vid-690b1c9b1f060d76594b616f';
+        playerElement.style.cssText = 'display: block; margin: 0 auto; width: 100%;';
+        container.appendChild(playerElement);
+
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/690b1c9b1f060d76594b616f/v4/player.js';
+        script.async = true;
+        document.head.appendChild(script);
+
+        videoPlayerLoaded = true;
+    }
 
     function playAudio() {
         var audio = document.getElementById("meuAudio");
@@ -1766,21 +1767,7 @@
         videoDiv.style.display = pagina === 'video' ? 'block' : 'none';
 
         if (pagina === 'video') {
-            setTimeout(function() {
-                if (window.smartplayer && window.smartplayer.instances) {
-                    const player = window.smartplayer.instances[0];
-                    if (player && typeof player.play === 'function') {
-                        player.play();
-                    }
-                }
-            }, 500);
-        } else {
-            if (window.smartplayer && window.smartplayer.instances) {
-                const player = window.smartplayer.instances[0];
-                if (player && typeof player.pause === 'function') {
-                    player.pause();
-                }
-            }
+            carregarVideoPlayer();
         }
     }
 
