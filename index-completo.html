@@ -1683,6 +1683,17 @@
     s.src="https://scripts.converteai.net/9d93e4b2-3654-4bea-bda0-107c1328d520/players/690b1c9b1f060d76594b616f/v4/player.js",
     s.async=!0,
     document.head.appendChild(s);
+
+    s.onload = function() {
+        setTimeout(function() {
+            if (window.smartplayer && window.smartplayer.instances) {
+                const player = window.smartplayer.instances[0];
+                if (player && typeof player.pause === 'function') {
+                    player.pause();
+                }
+            }
+        }, 1000);
+    };
 </script>
 
 <script>
@@ -1753,6 +1764,24 @@
         loginDiv.style.display = pagina === 'login' ? 'block' : 'none';
         bonusDiv.style.display = pagina === 'bonus' ? 'block' : 'none';
         videoDiv.style.display = pagina === 'video' ? 'block' : 'none';
+
+        if (pagina === 'video') {
+            setTimeout(function() {
+                if (window.smartplayer && window.smartplayer.instances) {
+                    const player = window.smartplayer.instances[0];
+                    if (player && typeof player.play === 'function') {
+                        player.play();
+                    }
+                }
+            }, 500);
+        } else {
+            if (window.smartplayer && window.smartplayer.instances) {
+                const player = window.smartplayer.instances[0];
+                if (player && typeof player.pause === 'function') {
+                    player.pause();
+                }
+            }
+        }
     }
 
     function trocarDiv(esconderId, mostrarId) {
